@@ -22,15 +22,16 @@ export default function SliderItem({slideItem,index, scrollX}:props) {
           translateX: interpolate(
             scrollX.value,
             [(index - 1) * width, index * width, (index + 1) * width],
-            [-width * 0.25, 0, width * 0.25],
+            [-width * 0.15, 0, width * 0.15],
            Extrapolation.CLAMP
           ),
         },
+
         {
           scale: interpolate(
             scrollX.value,
             [(index - 1) * width, index * width, (index + 1) * width],
-            [0.9, 1, 0.9],
+            [0.9, 1, 0.9],  
             Extrapolation.CLAMP
 
           ),

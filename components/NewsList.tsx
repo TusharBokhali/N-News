@@ -17,9 +17,9 @@ export default function NewsList({newsList}: Props) {
     ):(
         newsList.map((el,ind)=>(
             <Link href={`/${el.article_id}`} asChild key={ind}> 
-    <TouchableOpacity>
-            <NewsItem el={el} />
-            </TouchableOpacity>
+                <TouchableOpacity>
+                    <NewsItem el={el} />
+                </TouchableOpacity>
             </Link>
         )))
     }

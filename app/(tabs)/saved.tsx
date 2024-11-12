@@ -25,7 +25,9 @@ const Page = (props: Props) => {
       setIsLoading(true);
       if(res){
         console.log(res)
-        let query_String = res.join(',');
+        let query_String = res.join(',')
+        console.log("QUERY STRING ",query_String);
+        
         const response = await axios.get(`https://newsdata.io/api/1/news?apikey=pub_587283ebc33a278489b0ac3fbc09c7d385cc4&id=${query_String}`);
         setBookmarkNews(response.data.results)
         setIsLoading(false)
@@ -45,11 +47,11 @@ const Page = (props: Props) => {
         isLoading ? (
           <Loading size={'large'}/>
         ) : (
-          <FlatList data={bookmarkNews} keyExtractor={(_, index) => `list_item${index}`} showsVerticalScrollIndicator={false} renderItem={({ el, ind }) => {
+          <FlatList data={bookmarkNews} keyExtractor={(_, index) => `list_item${index}`} showsVerticalScrollIndicator={false} renderItem={({ item, index }) => {
             return (
-                <Link href={`/${el.article_id}`} asChild key={ind}>
+                <Link href={`/${item.article_id}`} asChild key={index}>
                     <TouchableOpacity>
-                        <NewsItem el={el} />
+                        <NewsItem el={item} />
                     </TouchableOpacity>
                 </Link>
             )

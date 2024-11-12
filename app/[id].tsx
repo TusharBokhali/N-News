@@ -20,7 +20,7 @@ export default function NewsDetails(props: Props) {
 
     useEffect(() => {
         getNEws();
-    })
+    },[])
 
     useEffect(()=>{
         if(!isLoading){
@@ -30,19 +30,19 @@ export default function NewsDetails(props: Props) {
 
     const saveBook = async(newsId:string) => {
         setBookmark(true)
-        await AsyncStorage.getItem("Bookmark").then((token) => {
+        await AsyncStorage.getItem("bookmark").then((token) => {
             const res = JSON.parse(token);
             if(res !==null){
                 let data = res.find((value:string) => value === newsId);
                 if(data ==null){
                     res.push(newsId)
-                    AsyncStorage.setItem("Bookmark",JSON.stringify(res))
+                    AsyncStorage.setItem("bookmark",JSON.stringify(res))
                     alert("News Saved!");
                 }
             } else{
                 let bookmark = [];
                 bookmark.push(newsId);
-                AsyncStorage.setItem("Bookmark",JSON.stringify(bookmark));
+                AsyncStorage.setItem("bookmark",JSON.stringify(bookmark));
                 alert("News Saved!");
 
             }
@@ -52,7 +52,7 @@ export default function NewsDetails(props: Props) {
     const removeBookmark = async(newsId:string)=>{
         setBookmark(false);
 
-         const BooksMarks = await AsyncStorage.getItem("Bookmark").then((token) => {
+         const bookmark = await AsyncStorage.getItem("bookmark").then((token) => {
             const res = JSON.parse(token);
             return res.filter((id:string)=> id !==newsId)
         });
@@ -74,6 +74,7 @@ export default function NewsDetails(props: Props) {
     const getNEws = async () => {
         try {
             // const URL = `https://newsdata.io/api/1/news?apikey=pub_58190849134dea2a1059428616e31663bbb8d&id=${id}`
+            // const URL = `https://newsdata.io/api/1/news?apikey=pub_587283ebc33a278489b0ac3fbc09c7d385cc4&id=${id}`
             const URL = `https://newsdata.io/api/1/news?apikey=pub_587283ebc33a278489b0ac3fbc09c7d385cc4&id=${id}`
             const res = await axios.get(URL)
 
@@ -82,7 +83,7 @@ export default function NewsDetails(props: Props) {
                 setAddNews(res.data.results)
                 setLoading(false)
             }
-        } catch (e) {
+        } catch (e: any) {
             console.log(e);
         }
     }
@@ -113,7 +114,7 @@ export default function NewsDetails(props: Props) {
                         </View>
                         <Image source={{uri:Getnews[0].image_url}} style={styles.NewsImages}/>
                         {Getnews[0].content ? (
-                            <Text style={{fontSize:14,color:'#555',letterSpacing:0.8,lineHeight:22,}}>{Getnews[0].content}</Text>
+                            <Text style={{fontSize:14,color:'#555',letterSpacing:0.8,lineHeight:22,}}>{Getnews[0].description}</Text>
                         ):(
                             <Text style={{fontSize:14,color:'#555',letterSpacing:0.8,lineHeight:22,}}>{Getnews[0].description}</Text>
                         )}

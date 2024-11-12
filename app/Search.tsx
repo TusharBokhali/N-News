@@ -35,6 +35,7 @@ export default function Search() {
             }
             
             // const URL = `https://newsdata.io/api/1/news?apikey=pub_58190849134dea2a1059428616e31663bbb8d&country=in&language=en&image=1&removeduplicate=1&size=10${categoryString}${CountryString}${queryString}`
+            //    const URL = `https://newsdata.io/api/1/news?apikey=pub_587283ebc33a278489b0ac3fbc09c7d385cc4&country=in&language=en&image=1&removeduplicate=1&size=10${categoryString}${CountryString}${queryString}`
                const URL = `https://newsdata.io/api/1/news?apikey=pub_587283ebc33a278489b0ac3fbc09c7d385cc4&country=in&language=en&image=1&removeduplicate=1&size=10${categoryString}${CountryString}${queryString}`
             const res = await axios.get(URL)
 
@@ -61,11 +62,11 @@ export default function Search() {
                     isLoading ? (
                         <Loading size={'large'} />
                     ) : (
-                        <FlatList data={news} keyExtractor={(_, index) => `list_item${index}`} showsVerticalScrollIndicator={false} renderItem={({ el, ind }) => {
+                        <FlatList data={news} keyExtractor={(_, index) => `list_item${index}`} showsVerticalScrollIndicator={false} renderItem={({ index, item }) => {
                             return (
-                                <Link href={`/${el.article_id}`} asChild key={ind}>
+                                <Link href={`/${item.article_id}`} asChild key={index}>
                                     <TouchableOpacity>
-                                        <NewsItem el={el} />
+                                        <NewsItem el={item} />
                                     </TouchableOpacity>
                                 </Link>
                             )
