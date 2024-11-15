@@ -14,19 +14,26 @@ const Page = (props: Props) => {
   const [bookmarkNews,setBookmarkNews] = useState([]);
   const [isLoading,setIsLoading] = useState(true);
   const isFocused = useIsFocused();
-
+  const [empty,setEmpty] = useState(false)
   useEffect(()=>{
     fetchBook();
   },[isFocused])
 
   const fetchBook = async () => {
     await AsyncStorage.getItem('bookmark').then(async(token) => {
-      const res = JSON.parse(token);
       setIsLoading(true);
+      const res = JSON.parse(token);
+      if(res == ''){
+        setIsLoading(false)
+        setEmpty(true)
+      }else{
+        setEmpty(false)
+        setIsLoading(true)
+      }
+      
+      
       if(res){
-        console.log(res)
         let query_String = res.join(',')
-        console.log("QUERY STRING ",query_String);
         
         const response = await axios.get(`https://newsdata.io/api/1/news?apikey=pub_587283ebc33a278489b0ac3fbc09c7d385cc4&id=${query_String}`);
         setBookmarkNews(response.data.results)
@@ -37,6 +44,8 @@ const Page = (props: Props) => {
       }
     }) 
   }
+  // empty ? <View style={{flex:1,justifyContent:'center',}}><Text style={{textAlign:'center',}}>News not Saved !</Text></View> :
+
   return (
     <>
     <Stack.Screen options={{
@@ -46,7 +55,7 @@ const Page = (props: Props) => {
       {
         isLoading ? (
           <Loading size={'large'}/>
-        ) : (
+        ) : (empty ? <View style={{flex:1,justifyContent:'center',}}><Text style={{textAlign:'center',}}>News not Saved !</Text></View> :  (
           <FlatList data={bookmarkNews} keyExtractor={(_, index) => `list_item${index}`} showsVerticalScrollIndicator={false} renderItem={({ item, index }) => {
             return (
                 <Link href={`/${item.article_id}`} asChild key={index}>
@@ -56,7 +65,7 @@ const Page = (props: Props) => {
                 </Link>
             )
         }} />
-        )
+        ))
       }
     </View>
     </>

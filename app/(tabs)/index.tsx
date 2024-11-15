@@ -45,7 +45,7 @@ const Page = (props: Props) => {
         categoryString = `&category=${category}`
       }
       
-        const URL =`https://newsdata.io/api/1/news?apikey=pub_587283ebc33a278489b0ac3fbc09c7d385cc4&country=in&language=en&image=1&removeduplicate=1&size=15${categoryString}`
+        const URL =`https://newsdata.io/api/1/news?apikey=pub_587283ebc33a278489b0ac3fbc09c7d385cc4&country=in&language=en&image=1&removeduplicate=1&size=10${categoryString}`
         const res = await axios.get(URL)
         
         if(res && res.data){
